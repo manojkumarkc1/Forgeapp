@@ -1,36 +1,41 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { invoke } from '@forge/bridge';
 
-export default function ProjectServices() {
-  const [services, setServices] = useState([]);
+function App() {
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     invoke('getProjectServices')
-      .then(res => {
-        if (res.error) {
-          setError(res.error);
-        } else {
-          setServices(res.services);
-        }
-      })
-      .catch(err => setError(err.message));
+      .then(setData)
+      .catch(setError);
   }, []);
 
-  if (error) return <div>Error: {error}</div>;
-  if (!services.length) return <div>Loading...</div>;
+  if (error) {
+    console.error(error);
+    return <div><p>Error: {error.message}</p></div>;
+  }
+
+  if (!data) {
+    return <div><p>Loading...</p></div>;
+  }
+
+  if (!data.services || data.services.length === 0) {
+    return <div><p>No services found for this project.</p></div>;
+  }
 
   return (
     <div>
-      {services.map((s, idx) => (
-        <div key={idx}>
-          <strong>{s.name}</strong><br>
-          </br>
-           — Estimated: {s.estimatedHours}h,
-           Worked: {s.workedHours}h,
-           Remaining: {s.remainingHours}h
+      {data.services.map((service, index) => (
+        <div key={index}>
+          <h3>{service.name}</h3>
+          <p>Estimated: {service.estimatedHours}h</p>
+          <p>Worked: {service.workedHours}h</p>
+          <p>Remaining: {service.remainingHours}h</p>
         </div>
       ))}
     </div>
   );
 }
+
+export default App;

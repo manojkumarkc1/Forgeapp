@@ -16,14 +16,13 @@ resources:
     path: static/hello-world/build
 permissions:
   scopes:
-    - read:servicedesk-request
-    - manage:servicedesk-customer
     - read:jira-work
+    
   external:
     fetch:
       backend:
         - address: jsonplaceholder.typicode.com
-        - address: https://api.productive.io
+        - address: api.productive.io
 app:
   runtime:
     name: nodejs22.x
