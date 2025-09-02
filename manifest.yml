@@ -1,0 +1,32 @@
+modules:
+  jira:issueGlance:
+    - key: jira-sidebardisplay-hello-world-panel
+      resource: main
+      label: User
+      resolver:
+        function: getProjectServices
+      viewportSize: medium
+      title: jira-sidebardisplay
+      icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
+  function:
+    - key: getProjectServices
+      handler: index.handler
+resources:
+  - key: main
+    path: static/hello-world/build
+permissions:
+  scopes:
+    - read:servicedesk-request
+    - manage:servicedesk-customer
+    - read:jira-work
+  external:
+    fetch:
+      backend:
+        - address: jsonplaceholder.typicode.com
+        - address: https://api.productive.io
+app:
+  runtime:
+    name: nodejs22.x
+    memoryMB: 256
+    architecture: arm64
+  id: ari:cloud:ecosystem::app/d8dcd475-69b6-4a27-86c9-d2770dfdf28e
