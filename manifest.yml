@@ -8,21 +8,28 @@ modules:
       viewportSize: medium
       title: jira-sidebardisplay
       icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
+
   function:
     - key: getProjectServices
       handler: index.handler
+
 resources:
   - key: main
     path: static/hello-world/build
+
 permissions:
   scopes:
     - read:jira-work
-    
+    - manage:servicedesk-customer
+    - read:organization.detail-field:jira-service-management
+    - read:organization:jira-service-management
   external:
     fetch:
       backend:
-        - address: jsonplaceholder.typicode.com
-        - address: api.productive.io
+        - address: https://jsonplaceholder.typicode.com
+        - address: https://api.atlassian.com
+        - address: https://api.productive.io
+
 app:
   runtime:
     name: nodejs22.x
